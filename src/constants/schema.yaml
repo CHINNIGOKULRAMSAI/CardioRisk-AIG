@@ -1,0 +1,53 @@
+columns:
+  age:
+    dtype: int
+    min: 10000
+    max: 25000
+
+  gender:
+    dtype: int
+    allowed: [1, 2]
+
+  height:
+    dtype: int
+    min: 50
+    max: 250
+
+  weight:
+    dtype: float
+    min: 10
+    max: 200
+
+  ap_hi:
+    dtype: int
+    min: -200
+    max: 20000
+
+  ap_lo:
+    dtype: int
+    min: -100
+    max: 15000
+
+  cholesterol:
+    dtype: int
+    allowed: [1, 2, 3]
+
+  gluc:
+    dtype: int
+    allowed: [1, 2, 3]
+
+  smoke:
+    dtype: int
+    allowed: [0, 1]
+
+  alco:
+    dtype: int
+    allowed: [0, 1]
+
+  active:
+    dtype: int
+    allowed: [0, 1]
+
+  cardio:
+    dtype: int
+    allowed: [0, 1]
