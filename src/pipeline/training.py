@@ -32,3 +32,52 @@ validation_artifact = validator.initiate_data_validation()
 
 if not validation_artifact.validation_status:
     raise Exception("❌ Data Validation Failed. Check report.")
+
+
+
+import pandas as pd
+from src.components.data_transformation.transform import DataTransformation
+from src.entity.config_entity.data_transformation_config import DataTransformationConfig
+
+# Load train/test data
+train_df = pd.read_csv("data/train/train.csv", sep=';')
+test_df = pd.read_csv("data/test/test.csv", sep=';')
+
+# Transformation config
+transformation_config = DataTransformationConfig(
+    transformed_train_path="artifacts/transformed/train.npy",
+    transformed_test_path="artifacts/transformed/test.npy",
+    preprocessor_object_path="artifacts/preprocessor/preprocessor.pkl",
+    target_column="cardio"
+)
+
+transformer = DataTransformation(
+    train_df=train_df,
+    test_df=test_df,
+    config=transformation_config
+)
+
+transformation_artifact = transformer.initiate_data_transformation()
+
+
+
+from src.components.model_training.training import ModelTrainer
+from src.entity.config_entity.model_trainer_config import ModelTrainerConfig
+import numpy as np
+
+# Load transformed data
+train_array = np.load(transformation_artifact.transformed_train_path)
+test_array = np.load(transformation_artifact.transformed_test_path)
+
+trainer_config = ModelTrainerConfig(
+    trained_model_file_path="artifacts/model/model.pkl",
+    expected_balanced_accuracy=0.70
+)
+
+trainer = ModelTrainer(
+    train_array=train_array,
+    test_array=test_array,
+    config=trainer_config
+)
+
+trainer_artifact = trainer.initiate_model_trainer()
